@@ -1,11 +1,16 @@
+import time
 import requests
-from bs4 import BeautifulSoup
 import pandas as pd
-from selenium_cybersec_scraper_api import get_exd_detail
+from bs4 import BeautifulSoup
+from selenium_cybersec_scraper_api import (
+    get_exd_detail,
+    create_webdriver
+)
 
-def get_cybersec_ecd_info(is_export_to_csv=True):
 
-    #只抓2024
+def get_cybersec_exd_info(is_export_to_csv=True):
+    
+    # 只抓2024
     url = "https://cybersec.ithome.com.tw/2024/exhibitionDirectory"
 
     # 1. 先去取得資訊: 回傳一份完整的html + js 字串
@@ -19,6 +24,7 @@ def get_cybersec_ecd_info(is_export_to_csv=True):
     url_prefix = "https://cybersec.ithome.com.tw"
     exd_cards_info = list()
 
+    web_driver = create_webdriver() # 在迴圈外創建你的模擬瀏覽器
     for exd_card in exd_cards:
         # 找連結
         href = url_prefix + exd_card.a["href"]
@@ -31,22 +37,27 @@ def get_cybersec_ecd_info(is_export_to_csv=True):
             exd_id = exd_card.h6.text.split("：")[1]
         else:
             exd_id = ""
-            
-        # 去使用動態爬蟲聯絡資訊
-        test_driver = webdriver.Firefox()
+
+        # 去使用動態爬蟲爬聯絡資訊
         exd_data = get_exd_detail(
             url=href,
-            driver=test_driver
+            driver=web_driver
         )
-        print(exd_data)
-        test_driver.close()
-
-        # print(href, exd_name, exd_id)
-        exd_cards_info.append({
+        
+        # 廠商簡介
+        exd_intro = {
             'exd_link': href,
             'exd_name': exd_name,
             'exd_id': exd_id
-        })
+        }
+
+        # dict1.update(dict_2) -> 合併字典的資料
+        exd_data.update(exd_intro)
+        exd_cards_info.append(exd_data)
+
+        time.sleep(3)
+
+    web_driver.close()
 
     if is_export_to_csv:
         data = pd.DataFrame(exd_cards_info) # 轉換成DataFrame
@@ -56,5 +67,5 @@ def get_cybersec_ecd_info(is_export_to_csv=True):
 
 
 if __name__ == '__main__':
-    data = get_cybersec_ecd_info(is_export_to_csv=False)
-    print(data[:5])
+   data = get_cybersec_exd_info(is_export_to_csv=True)
+   print(data[:5])

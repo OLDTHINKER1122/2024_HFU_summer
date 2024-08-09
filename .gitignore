@@ -2,3 +2,4 @@ __pycache__/*
 .vscode/*
 2024_project_env/*
 2024_project.code-workspace
+ngrok.exe

@@ -16,6 +16,6 @@ def get_secret_and_token():
         sys.exit(1)
 
     return {
-            'LINE_CHANNEL_SECRET': channel_access_token,
+            'LINE_CHANNEL_SECRET': channel_secret,
             'LINE_CHANNEL_ACCESS_TOKEN': channel_access_token
     }

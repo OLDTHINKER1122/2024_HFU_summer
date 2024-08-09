@@ -25,8 +25,8 @@ from handle_keys import get_secret_and_token
 
 app = Flask(__name__)
 keys = get_secret_and_token()
-handler = WebhookHandler(channel_secret)
-configuration = Configuration(access_token=channel_access_token)
+handler = WebhookHandler(keys['channel_secret'])
+configuration = Configuration(access_token=keys['channel_access_token'])
 
 # 測試用，確定webhook server 有連通
 @app.route("/")

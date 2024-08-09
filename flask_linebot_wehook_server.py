@@ -27,8 +27,8 @@ from openai_api import chat_with_chatgpt
 
 app = Flask(__name__)
 keys = get_secret_and_token()
-handler = WebhookHandler(keys['LINEBOT_SECRET_KEY'])
-configuration = Configuration(access_token=keys['LINEBOT_ACCESS_TOKEN'])
+handler = WebhookHandler(keys['LINE_CHANNEL_SECRET'])
+configuration = Configuration(access_token=keys['LINE_CHANNEL_ACCESS_TOKEN'])
 
 @app.route("/")
 def say_hello_world(username=""):

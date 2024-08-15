@@ -1,2 +1,2 @@
-0 Somebody
-1 No body
+0 stone
+1 thumb up

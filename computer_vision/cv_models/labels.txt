@@ -1,2 +1,3 @@
-0 stone
-1 thumb up
+0 thumb up
+1 stone
+2 No Hand
